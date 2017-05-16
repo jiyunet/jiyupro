@@ -1,0 +1,7 @@
+[package]
+name = "jyminerp"
+version = "0.1.0"
+authors = ["treyzania <treyzania@gmail.com>"]
+
+[dependencies]
+libjiyup = { path = "../libjiyup" }
