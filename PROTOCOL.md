@@ -10,13 +10,16 @@ What we need:
 - *Blocks*
     - hash of predecessor
     - timestamp
-    - minter (identity + signature)
+    - author (minter)
+    - signature
     - list of artifacts
 
 
 - *Artifacts*
+    - unique identifier
     - timestamp
     - author
+    - signature
     - data (kind / information)
 
 
