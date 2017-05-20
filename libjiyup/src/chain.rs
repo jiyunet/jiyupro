@@ -1,19 +1,24 @@
-#![allow(dead_code)]
-
-pub struct Address {
-    hash: [u8; 32] // FIXME Make 32 a constant when we can because rust doesn't like that for some reason.
+#[derive(Serialize, Deserialize)]
+pub struct Block {
+    version: u16,
+    parent: Address,
+    timestamp: u64, // UNIX
+    author: Address,
+    artifacts: Vec<Address>
 }
 
-impl Address {
+#[derive(Serialize, Deserialize)]
+pub struct Chunk {
+    version: u16,
+    parent: Address,
+    timestamp: u64, // UNIX
+    author: Address,
+    difficulty: u64, // FIXME Define this better.
+    blocks: Vec<Address>
+}
 
-    fn from_data(data: &[u8]) -> Address{
-
-        // TODO Make it SHA-256 the data.
-
-        Address {
-            hash: [data[0], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        }
-
-    }
-
+// FIXME Make this struct deserialize more compactly, like to just a hex string.
+#[derive(Serialize, Deserialize)]
+pub struct Address {
+    id: [u8; 32] // FIXME Make this 32 configuratble based on which hash algo we choose.
 }
