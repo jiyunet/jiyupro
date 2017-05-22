@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 
-use chain::Address;
+use storage::Address;
+
+pub type ArtAddress = Address;
 
 pub struct ArtifactEntry {
 	signature: [u8; 32],
@@ -9,7 +11,7 @@ pub struct ArtifactEntry {
 
 pub struct ArtifactHeader {
 	timestamp: u64,
-	author: Address,
+	author: ArtAddress,
 	contents: ArtSpec
 }
 
