@@ -4,3 +4,4 @@ extern crate serde;
 
 pub mod chain;
 pub mod artifact;
+pub mod storage;
