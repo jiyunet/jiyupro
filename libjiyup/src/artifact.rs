@@ -17,9 +17,9 @@ pub struct ArtifactHeader {
 
 pub enum ArtSpec {
 	Unknown { ver: u16, raw: Vec<u8> },
-	RootIdent { art: IdentityDeclararionArtifact }, // Should this really just be the same?
-	IdentDecl { art: IdentityDeclararionArtifact },
-	SimpleTextMsg { art: SimpleTextMessageArtifact }
+	RootIdent(IdentityDeclararionArtifact), // Should this really just be the same?
+	IdentDecl(IdentityDeclararionArtifact),
+	SimpleTextMsg(SimpleTextMessageArtifact)
 }
 
 impl ArtSpec {
@@ -29,9 +29,9 @@ impl ArtSpec {
 
 		match self {
 			ArtSpec::Unknown { ver, raw } => ver,
-			ArtSpec::RootIdent { art } => 0x0000,
-			ArtSpec::IdentDecl { art } => 0x0001,
-			ArtSpec::SimpleTextMsg { art } => 0x0010
+			ArtSpec::RootIdent(_) => 0x0000,
+			ArtSpec::IdentDecl(_) => 0x0001,
+			ArtSpec::SimpleTextMsg(_) => 0x0010
 		}
 
 	}
