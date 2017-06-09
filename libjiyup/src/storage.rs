@@ -3,24 +3,56 @@
 use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::io::Read;
+use std::fmt;
 
 use chain::*;
 use artifact::*;
+
+use serde::*;
+use serde::de::*;
+use serde::ser::*;
 
 pub trait BlockchainElement {
     fn encode(&self) -> &[u8];
     fn decode(bytes: &[u8]) -> Self;
 }
 
-// FIXME Make this struct deserialize more compactly, like to just a hex string.
-#[derive(Serialize, Deserialize)]
 pub struct Address {
     id: [u8; 32] // FIXME Make this 32 configuratble based on which hash algo we choose.
 }
 
+impl Serialize for Address {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+        serializer.serialize_str(self.to_string().as_str())
+    }
+}
+
+struct AddrVisitor;
+impl<'de> Visitor<'de> for AddrVisitor {
+
+    type Value = String;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("a string of length 32")
+    }
+
+}
+
+impl<'de> Deserialize<'de> for Address {
+
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: Deserializer<'de> {
+        unimplemented!();
+    }
+
+}
+
 impl Address {
 
-    pub fn to_str(&self) -> String {
+    pub fn from_str(hex: &str) -> Address {
+        unimplemented!()
+    }
+
+    pub fn to_string(&self) -> String {
 
         let mut hex = String::with_capacity(64);
 
@@ -88,7 +120,7 @@ impl<E> EntitySource<E> for LocalStorage where E: Entity {
     fn load(&self, addr: Address) -> Result<Option<E>, ()> {
 
         let mut p = self.root.to_owned();
-        let addr_str = addr.to_str();
+        let addr_str = addr.to_string();
         p.push(&addr_str[..4]);
         p.push(&addr_str[4..]);
 
